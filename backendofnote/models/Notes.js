@@ -1,6 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const NotesSchema = new Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+    },
     title:{
         type: String,
         required: true
@@ -19,6 +23,6 @@ const NotesSchema = new Schema({
     },
 });
 
-const NotesModel = mongoose.model('user', NotesSchema);
+const NotesModel = mongoose.model('note', NotesSchema);
 
 export default NotesModel;

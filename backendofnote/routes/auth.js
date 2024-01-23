@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import UserModel from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import fetchuser from "../middlewares/fetchuser.js";
 
 
 const JWT_SECRET = "Prantiispranti";
@@ -83,5 +84,19 @@ async (req, res)=>{
     res.status(500).send("Internal server error");
   }
 });
+
+//getting user using : POST "/api/auth/getuser". login required
+authRouter.post("/getuser", fetchuser,
+async (req, res)=>{
+  try {
+    let userId = req.abc.id;
+    const user = await UserModel.findById(userId).select("-password");
+    res.send(user);
+  }
+  catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal server error");
+  }
+})
 
 export default authRouter;
