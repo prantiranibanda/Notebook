@@ -11,11 +11,6 @@ mongoConnect();
 app.use('/api/auth', authRouter);
 app.use('/api/nts', ntsRouter);
 
-// app.use(express.json())
-// app.post("/", (req, res)=>{
-//    res.json(req.body);
-// })
-
 app.listen(port, ()=>{
     console.log(`Listening to port ${port}`);
 })
