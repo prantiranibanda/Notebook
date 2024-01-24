@@ -6,53 +6,53 @@ const Home = () => {
     const [tag, setTag] = useState("")
     const [notes, setNotes] = useState([])
 
-    const noteData = [
-        {
-          "_id": "65afb929d0c708d8ce0c4b74",
-          "user": "65af89ff6d6a777446a31813",
-          "title": "My title20 updated",
-          "description": "My description hgfdsawertuyy updated",
-          "tag": "personal",
-          "date": "2024-01-23T13:03:37.453Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b134adf74ca5176915f194",
-          "user": "65af89ff6d6a777446a31813",
-          "title": "My title8888",
-          "description": "My description 8888888888",
-          "tag": "888888888",
-          "date": "2024-01-24T16:02:53.533Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b134b5f74ca5176915f196",
-          "user": "65af89ff6d6a777446a31813",
-          "title": "My titl8",
-          "description": "My description 8888888888",
-          "tag": "888888888",
-          "date": "2024-01-24T16:03:01.287Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b13794a277c07978722072",
-          "user": "65af89ff6d6a777446a31813",
-          "title": "My titlddede",
-          "description": "My description 8888888888",
-          "tag": "888888888",
-          "date": "2024-01-24T16:15:16.249Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b13846a277c07978722074",
-          "user": "65af89ff6d6a777446a31813",
-          "title": "Krishna",
-          "description": "Krishna's note",
-          "tag": "kk",
-          "date": "2024-01-24T16:18:14.310Z",
-          "__v": 0
-        }
-      ]
+    // const noteData = [
+    //     {
+    //       "_id": "65afb929d0c708d8ce0c4b74",
+    //       "user": "65af89ff6d6a777446a31813",
+    //       "title": "My title20 updated",
+    //       "description": "My description hgfdsawertuyy updated",
+    //       "tag": "personal",
+    //       "date": "2024-01-23T13:03:37.453Z",
+    //       "__v": 0
+    //     },
+    //     {
+    //       "_id": "65b134adf74ca5176915f194",
+    //       "user": "65af89ff6d6a777446a31813",
+    //       "title": "My title8888",
+    //       "description": "My description 8888888888",
+    //       "tag": "888888888",
+    //       "date": "2024-01-24T16:02:53.533Z",
+    //       "__v": 0
+    //     },
+    //     {
+    //       "_id": "65b134b5f74ca5176915f196",
+    //       "user": "65af89ff6d6a777446a31813",
+    //       "title": "My titl8",
+    //       "description": "My description 8888888888",
+    //       "tag": "888888888",
+    //       "date": "2024-01-24T16:03:01.287Z",
+    //       "__v": 0
+    //     },
+    //     {
+    //       "_id": "65b13794a277c07978722072",
+    //       "user": "65af89ff6d6a777446a31813",
+    //       "title": "My titlddede",
+    //       "description": "My description 8888888888",
+    //       "tag": "888888888",
+    //       "date": "2024-01-24T16:15:16.249Z",
+    //       "__v": 0
+    //     },
+    //     {
+    //       "_id": "65b13846a277c07978722074",
+    //       "user": "65af89ff6d6a777446a31813",
+    //       "title": "Krishna",
+    //       "description": "Krishna's note",
+    //       "tag": "kk",
+    //       "date": "2024-01-24T16:18:14.310Z",
+    //       "__v": 0
+    //     }
+    //   ]
 
     const handleTitle = (event) => {
         setTitle(event.target.value);
@@ -74,7 +74,10 @@ const Home = () => {
             body: JSON.stringify(data),
         })
         let resp = await response.json();
-        console.log(resp);
+        setTitle("");
+        setDesp("");
+        setTag("")
+        fetchNote();
     }
 
     function storeData(){
@@ -94,24 +97,43 @@ const Home = () => {
                 "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
             },
         })
-        response.json().then(data=>{setNotes(data);console.log(notes)})
+        response.json().then(data=>{setNotes(data);})
         // let resp = await response.json();
         // setNotes(resp);
         // console.log(resp);
     }
     useEffect(()=>{
        fetchNote();
-    })
+    },[])
+    //Delete Notes..............................................................................
+    async function handleDelete(id){
+        const response = await fetch(`http://localhost:5000/api/nts/deletenote/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
+            },
+        })
+        let resp = await response.json();
+        console.log(resp);
+        fetchNote();
+    }
 
     return (
         <div className="flex justify-center">
-        <div className="w-1/2">    
-        <div className="text-xl font-medium">Title:</div>
-        <input type="text" name="title" placeholder="Give a title" className="border-2 border-blue-500 w-full rounded-sm p-1" value={title} onChange={handleTitle}/>
-        <div className="text-xl font-medium">Description:</div>
-        <textarea type="text" name="description" placeholder="Give a Description" className="border-2 border-blue-500 w-full rounded-sm p-1" value={desp} onChange={handleDesp}/>
-        <div className="text-xl font-medium">Tag:</div>
-        <input type="text" name="tag" placeholder="Give a Tag" className="border-2 border-blue-500 w-full rounded-sm p-1" value={tag} onChange={handleTag}/>
+        <div className="w-2/3">   
+        <div className="p-3 bg-purple-300 my-4">
+            <div className="text-xl font-medium bg-purple-300 pb-2">Title:</div>
+            <input type="text" name="title" placeholder="Give a title" className="border-2 border-blue-500 w-full p-1" value={title} onChange={handleTitle}/>
+        </div> 
+        <div className="p-3 bg-purple-300 my-4">
+            <div className="text-xl font-medium bg-purple-300 pb-2">Description:</div>
+            <textarea type="text" name="description" placeholder="Give a Description" className="border-2 border-blue-500 w-full p-1" value={desp} onChange={handleDesp}/>
+        </div>
+        <div className="p-3 bg-purple-300 my-4">
+            <div className="text-xl font-medium bg-purple-300 pb-2">Tag:</div>
+            <input type="text" name="tag" placeholder="Give a Tag" className="border-2 border-blue-500 w-full p-1" value={tag} onChange={handleTag}/>
+        </div>
         <button className="px-4 py-3 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={storeData}>ADD NOTE</button>
         <div className="bg-blue-600 h-[2px] my-5"></div>
         <div className="text-4xl font-bold">Your Notes:</div>
@@ -123,6 +145,9 @@ const Home = () => {
                 <div className="text-xl pb-3 font-bold text-purple-600">{index+1}.Title: {note.title}</div>
                 <div>{note.description}</div>
                 <div className="bg-purple-300 text-purple-500 w-fit text-sm font-medium py-1 px-2 rounded-2xl mt-2">{note.tag}</div>
+                <div className="bg-purple-300 text-purple-500 w-fit text-sm font-medium py-1 px-2 rounded-2xl mt-2">{note.date}</div>
+                <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
+                <button className="material-symbols-outlined">edit_note</button>
             </div>
             )
         })}
