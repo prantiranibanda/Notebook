@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+let nt;
 const Home = () => {
     const [title, setTitle] = useState("")
     const [desp, setDesp] = useState("")
@@ -130,19 +130,35 @@ const Home = () => {
             body: JSON.stringify(data),
         })
         let resp = await response.json();
-        console.log(resp);
+        //console.log(resp);
+        fetchNote();
     }
-
-    function editNote(id){
+    function saveChanges(){
         let data = {}
         data.title = title;
         data.description = desp;
         data.tag = tag;
-        setHid(false);
-        handleUpdate(data, id);
+        //console.log(data)
+        handleUpdate(data, nt[0]._id);
+        setHid(true);
+        setTitle("");
+        setDesp("");
+        setTag("");
+        //console.log(nt[0]._id)
     }
+
+    function editNote(id){
+        setHid(false);
+        nt = notes.filter((note) => note._id === id);
+        console.log(nt[0]);
+        setTitle(nt[0].title);
+        setDesp(nt[0].description);
+        setTag(nt[0].tag);
+    }
+
     return (
-        <div className={`flex justify-center`}>
+        <>
+            <div className={`flex justify-center ${hid?"":"hidden"}`}>
             <div className="w-2/3"> 
                 <div className="text-4xl font-bold mt-6 mb-4">Add Notes:</div>  
                 <div className="p-3 px-10 bg-purple-200 my-1">
@@ -179,7 +195,26 @@ const Home = () => {
                     )
                 })}
             </div>
-        </div>
+            </div>
+            <div className={`flex justify-center ${hid?"hidden":""}`}>
+                <div className="w-2/3">
+                    <div className="text-4xl font-bold mt-6 mb-4">Edit Notes:</div>  
+                    <div className="p-3 px-10 bg-purple-200 my-1">
+                        <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
+                        <input type="text" name="title" placeholder="Give a title" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={title} onChange={handleTitle}/>
+                    </div> 
+                    <div className="p-3 px-10 bg-purple-200 my-1">
+                        <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
+                        <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2 h-64" value={desp} onChange={handleDesp}/>
+                    </div>
+                    <div className="p-3 px-10 bg-purple-200 my-1">
+                        <div className="text-xl font-bold pb-2 text-purple-600">Tag:</div>
+                        <input type="text" name="tag" placeholder="Give a Tag" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={tag} onChange={handleTag}/>
+                    </div>
+                    <button className="px-3 py-2 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={saveChanges}>SAVE CHANGES</button>
+                </div>
+            </div>
+        </>
     )
 }
 
