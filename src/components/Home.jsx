@@ -47,6 +47,7 @@ const Home = ({auth, setAuth}) => {
         // console.log(resp);
     }
     useEffect(()=>{
+        
         console.log(auth);
         fetchNote();
     },[auth])
@@ -120,7 +121,9 @@ const Home = ({auth, setAuth}) => {
                 <button className="px-3 py-2 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={createNote}>ADD NOTE</button>
                 <div className="bg-blue-600 h-[2px] my-5"></div>
                 <div className="text-4xl font-bold">Your Notes:</div>
-                {(auth !== "null")?<div>
+                {(auth === "null")?<div>Login or sign up</div>:
+                ((notes == [])?<div>You have no notes. Create your notes</div>:
+                <div>
                     {notes.map((note, index)=>{
                     return (
                     <div 
@@ -139,7 +142,7 @@ const Home = ({auth, setAuth}) => {
                     </div>
                     )
                 })}
-                </div>:<div>Login or sign up</div>}
+                </div>)}
             </div>
             </div>
             <div className={`flex justify-center ${hid?"hidden":""}`}>

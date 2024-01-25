@@ -10,7 +10,7 @@ function App() {
   const [auth, setAuth] = useState("null");
   return (
     <div>
-      <Navbar/>
+      <Navbar auth={auth} setAuth={setAuth}/>
         <Routes>
           <Route path="/" element={<Home auth={auth} setAuth={setAuth}/>}></Route>
           <Route path="/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
