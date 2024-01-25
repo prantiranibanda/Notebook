@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 let nt;
-const Home = () => {
+const Home = ({auth, setAuth}) => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [tag, setTag] = useState("")
@@ -16,13 +16,13 @@ const Home = () => {
     const handleTag = (event) => {
         setTag(event.target.value);
     };
-    //Creating notes...............................................................................................
+    //Creating notes..........................................................................
     async function createNote(){
         const response = await fetch("http://localhost:5000/api/nts/addnotes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
+                "auth-token": `${auth}`
             },
             body: JSON.stringify({title, description, tag}),
         })
@@ -38,7 +38,7 @@ const Home = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
+                "auth-token": `${auth}`
             },
         })
         response.json().then(data=>{setNotes(data);})
@@ -47,28 +47,29 @@ const Home = () => {
         // console.log(resp);
     }
     useEffect(()=>{
+        console.log(auth);
         fetchNote();
-    },[])
-    //Delete Notes..............................................................................
+    },[auth])
+    //Delete Notes............................................................................
     async function handleDelete(id){
         const response = await fetch(`http://localhost:5000/api/nts/deletenote/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
+                "auth-token": `${auth}`
             },
         })
         let resp = await response.json();
         console.log(resp);
         fetchNote();
     }
-    //Updating Notes............................................................................
+    //Updating Notes..........................................................................
     async function handleUpdate(id){
         const response = await fetch(`http://localhost:5000/api/nts/updatenote/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhZjg5ZmY2ZDZhNzc3NDQ2YTMxODEzIn0sImlhdCI6MTcwNjAwOTI2Mn0.UFfBlbnlW4zuTi6q-kD-23lvCagDiD-nT7AQJKRX8aA"
+                "auth-token": `${auth}`
             },
             body: JSON.stringify({title, description, tag}),
         })
@@ -119,7 +120,8 @@ const Home = () => {
                 <button className="px-3 py-2 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={createNote}>ADD NOTE</button>
                 <div className="bg-blue-600 h-[2px] my-5"></div>
                 <div className="text-4xl font-bold">Your Notes:</div>
-                {notes.map((note, index)=>{
+                {(auth !== "null")?<div>
+                    {notes.map((note, index)=>{
                     return (
                     <div 
                     className="bg-gray-100 my-4 py-5 px-5 shadow-md border-[2px] border-gray-300 rounded-sm"
@@ -137,6 +139,7 @@ const Home = () => {
                     </div>
                     )
                 })}
+                </div>:<div>Login or sign up</div>}
             </div>
             </div>
             <div className={`flex justify-center ${hid?"hidden":""}`}>

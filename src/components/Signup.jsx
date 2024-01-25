@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Signup = () => {
+const Signup = ({auth, setAuth}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +24,7 @@ const Signup = () => {
         body: JSON.stringify({name, email, password}),
     })
     let resp = await response.json();
+    setAuth(resp.authToken);
     console.log(resp);
     setName("");
     setEmail("");
