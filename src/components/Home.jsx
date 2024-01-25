@@ -7,54 +7,6 @@ const Home = () => {
     const [notes, setNotes] = useState([])
     const [hid, setHid] = useState(true)
 
-    // const noteData = [
-    //     {
-    //       "_id": "65afb929d0c708d8ce0c4b74",
-    //       "user": "65af89ff6d6a777446a31813",
-    //       "title": "My title20 updated",
-    //       "description": "My description hgfdsawertuyy updated",
-    //       "tag": "personal",
-    //       "date": "2024-01-23T13:03:37.453Z",
-    //       "__v": 0
-    //     },
-    //     {
-    //       "_id": "65b134adf74ca5176915f194",
-    //       "user": "65af89ff6d6a777446a31813",
-    //       "title": "My title8888",
-    //       "description": "My description 8888888888",
-    //       "tag": "888888888",
-    //       "date": "2024-01-24T16:02:53.533Z",
-    //       "__v": 0
-    //     },
-    //     {
-    //       "_id": "65b134b5f74ca5176915f196",
-    //       "user": "65af89ff6d6a777446a31813",
-    //       "title": "My titl8",
-    //       "description": "My description 8888888888",
-    //       "tag": "888888888",
-    //       "date": "2024-01-24T16:03:01.287Z",
-    //       "__v": 0
-    //     },
-    //     {
-    //       "_id": "65b13794a277c07978722072",
-    //       "user": "65af89ff6d6a777446a31813",
-    //       "title": "My titlddede",
-    //       "description": "My description 8888888888",
-    //       "tag": "888888888",
-    //       "date": "2024-01-24T16:15:16.249Z",
-    //       "__v": 0
-    //     },
-    //     {
-    //       "_id": "65b13846a277c07978722074",
-    //       "user": "65af89ff6d6a777446a31813",
-    //       "title": "Krishna",
-    //       "description": "Krishna's note",
-    //       "tag": "kk",
-    //       "date": "2024-01-24T16:18:14.310Z",
-    //       "__v": 0
-    //     }
-    //   ]
-
     const handleTitle = (event) => {
         setTitle(event.target.value);
     };
@@ -104,7 +56,7 @@ const Home = () => {
         // console.log(resp);
     }
     useEffect(()=>{
-       fetchNote();
+        fetchNote();
     },[])
     //Delete Notes..............................................................................
     async function handleDelete(id){
