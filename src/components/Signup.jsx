@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Signup = ({auth, setAuth}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function handleName(event){
     setName(event.target.value)
@@ -24,11 +26,14 @@ const Signup = ({auth, setAuth}) => {
         body: JSON.stringify({name, email, password}),
     })
     let resp = await response.json();
-    setAuth(resp.authToken);
-    console.log(resp);
-    setName("");
-    setEmail("");
-    setPassword("");
+    if (resp.success) {
+      setAuth(resp.authToken);
+      navigate("/");
+      setName("");
+      setEmail("");
+      setPassword("");
+    }
+    else console.warn("Not Signed up");
   }
   // function storeUserData(){
   //   let data = {}
