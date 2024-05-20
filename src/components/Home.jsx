@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 let nt;
 const Home = ({auth, setAuth}) => {
     const [title, setTitle] = useState("")
@@ -16,6 +17,7 @@ const Home = ({auth, setAuth}) => {
     const handleTag = (event) => {
         setTag(event.target.value);
     };
+    const navigate = useNavigate();
     //Creating notes..........................................................................
     async function createNote(){
         const response = await fetch("http://localhost:5000/api/nts/addnotes", {
@@ -47,10 +49,13 @@ const Home = ({auth, setAuth}) => {
         // console.log(resp);
     }
     useEffect(()=>{
-        
-        console.log(auth);
-        fetchNote();
-    },[auth])
+        if (auth === "null") navigate("/login")
+        else {
+            console.log(auth);
+            fetchNote(); 
+        } 
+    }, [auth])
+    
     //Delete Notes............................................................................
     async function handleDelete(id){
         const response = await fetch(`http://localhost:5000/api/nts/deletenote/${id}`, {
