@@ -77,7 +77,7 @@ async (req, res)=>{
       }
     }
     const authToken = jwt.sign(data, JWT_SECRET)
-    res.json({authToken});
+    res.json({success:true, authToken});
 
   } catch (error) {
     console.log(error.message);

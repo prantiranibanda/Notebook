@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Login = ({auth, setAuth}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     function handleEmail(event){
         setEmail(event.target.value)
@@ -19,11 +22,13 @@ const Login = ({auth, setAuth}) => {
             body: JSON.stringify({email, password}),
         })
         let resp = await response.json();
-        setAuth(resp.authToken);
-        //console.log(auth);
-        console.log(resp);
-        setEmail("");
-        setPassword("");
+        if (resp.success) {
+            setAuth(resp.authToken);
+            navigate("/");
+            setEmail("");
+            setPassword("");
+        }
+        else console.warn("Not logged in");
     }
     // function storeUserData(){
     //     let data = {}
