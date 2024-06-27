@@ -28,7 +28,13 @@ const Login = ({auth, setAuth}) => {
             setEmail("");
             setPassword("");
         }
-        else console.warn("Not logged in");
+        else {
+            console.warn("Not logged in");
+            for (let i = 0; i < resp.errors.length; i++) {
+                const err = resp.errors[i];
+                console.log(err.msg);
+            }
+        }
     }
     // function storeUserData(){
     //     let data = {}

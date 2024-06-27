@@ -33,7 +33,13 @@ const Signup = ({auth, setAuth}) => {
       setEmail("");
       setPassword("");
     }
-    else console.warn("Not Signed up");
+    else {
+      console.warn("Not Signed up");
+      for (let i = 0; i < resp.errors.length; i++) {
+        const err = resp.errors[i];
+        console.log(err.msg);
+      }
+    }
   }
   // function storeUserData(){
   //   let data = {}
