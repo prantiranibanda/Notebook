@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 let nt;
-const Home = ({auth, setAuth}) => {
+const Home = ({auth}) => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [tag, setTag] = useState("")
@@ -95,25 +95,17 @@ const Home = ({auth, setAuth}) => {
             }
         })
         let resp = await response.json();
-        // navigate("/notes", { state: resp });
         setHeading(resp.note.title);
         setContent(resp.note.description);
         setDisplayNote(false);
     }
 
-
     function saveChanges(){
-        // let data = {}
-        // data.title = title;
-        // data.description = description;
-        // data.tag = tag;
-        //console.log(data)
         handleUpdate(nt[0]._id);
         setHid(true);
         setTitle("");
         setDescription("");
         setTag("");
-        //console.log(nt[0]._id)
     }
 
     function editNote(id){
@@ -147,11 +139,12 @@ const Home = ({auth, setAuth}) => {
                     </div>
                     
                     
-                    <div className="py-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
 
                     {(auth === "null")?<div>Login or sign up</div>:
-                    ((notes == [])?<div>You have no notes. Create your notes</div>:
-                    <div className='grid grid-cols-3 gap-5 mb-10'>
+                    ((notes.length!==0)?
+                    <div>
+                        <div className="py-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
+                        <div className='grid grid-cols-3 gap-5 mb-10'>
                         {notes.map((note, index)=>{
                         return (
                         <div     
@@ -170,7 +163,8 @@ const Home = ({auth, setAuth}) => {
                         </div>
                         )
                     })}
-                    </div>)}
+                    </div></div>
+                    :<div>You have no notes. Create your notes</div>)}
                 </div>
             </div>
             <div className={`fixed top-0 w-full h-full flex justify-center ${hid?"hidden":""}`}>

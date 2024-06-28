@@ -12,7 +12,7 @@ function App() {
     <div className=''>
       <Navbar auth={auth} setAuth={setAuth}/>
       <Routes>
-        <Route path="/" element={<Home auth={auth} setAuth={setAuth}/>}></Route>
+        <Route path="/" element={<Home auth={auth}/>}></Route>
         <Route path="/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
         <Route path="/signup" element={<Signup auth={auth} setAuth={setAuth} />}></Route>
       </Routes>
