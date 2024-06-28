@@ -109,46 +109,50 @@ const Home = ({auth, setAuth}) => {
     return (
         <>
             <div className={`flex justify-center ${hid?"":"hidden"}`}>
-            <div className="w-2/3"> 
-                <div className="text-4xl font-bold mt-6 mb-4">Add Notes:</div>  
-                <div className="p-3 px-10 bg-purple-200 my-1">
-                    <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
-                    <input type="text" name="title" placeholder="Give a title" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={title} onChange={handleTitle}/>
-                </div> 
-                <div className="p-3 px-10 bg-purple-200 my-1">
-                    <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
-                    <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2 h-64" value={description} onChange={handleDesp}/>
-                </div>
-                <div className="p-3 px-10 bg-purple-200 my-1">
-                    <div className="text-xl font-bold pb-2 text-purple-600">Tag:</div>
-                    <input type="text" name="tag" placeholder="Give a Tag" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={tag} onChange={handleTag}/>
-                </div>
-                <button className="px-3 py-2 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={createNote}>ADD NOTE</button>
-                <div className="bg-blue-600 h-[2px] my-5"></div>
-                <div className="text-4xl font-bold">Your Notes:</div>
-                {(auth === "null")?<div>Login or sign up</div>:
-                ((notes == [])?<div>You have no notes. Create your notes</div>:
-                <div>
-                    {notes.map((note, index)=>{
-                    return (
-                    <div 
-                    className="bg-gray-100 my-4 py-5 px-5 shadow-md border-[2px] border-gray-300 rounded-sm"
-                    key={note._id}>
-                        <div className="text-2xl font-bold text-emerald-500 pb-2 border-b-2 border-emerald-500 w-fit">{index+1}. {note.title}</div>
-                        <div className="px-1 border-l-2 border-orange-400 m-3 text-lg font-serif">{note.description}</div>
-                        <div className="flex space-x-4">
-                            <div className="bg-purple-300 text-purple-500 w-fit text-sm font-medium py-1 px-2 rounded-2xl">{note.tag}</div>
-                            <div className="bg-purple-300 text-purple-500 w-fit text-sm font-medium py-1 px-2 rounded-2xl">{note.date}</div>
+                <div className="w-2/3"> 
+                    <div className="p-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Your Notes</div>     
+                    <div className='p-3 rounded-md bg-purple-50 shadow-lg shadow-purple-300/50'>
+                        <div className="p-3 flex space-x-4">
+                            <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
+                            <input type="text" name="title" placeholder="Give a title" className="italic rounded-md border-b-2 border-gray-400 w-full py-1 px-2" value={title} onChange={handleTitle}/>
+                            
+                            <div className="text-xl font-bold pb-2 text-purple-600">Tag:</div>
+                            <input type="text" name="tag" placeholder="Give a Tag" className="italic rounded-md border-b-2 border-gray-400 w-full py-1 px-2" value={tag} onChange={handleTag}/>
+                        </div>  
+                        <div className="p-3">
+                            <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
+                            <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-b-2 border-gray-400 w-full py-1 px-2 h-40" value={description} onChange={handleDesp}/>
                         </div>
-                        <div className="flex space-x-3 text-purple-900 justify-end">
-                            <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
-                            <button onClick = {()=>{editNote(note._id)}} className="material-symbols-outlined">edit_square</button>
-                        </div>
+                    <div className='p-3 flex justify-end'><div className="w-1/5 py-3 bg-purple-500 rounded-md text-center text-white border-4 border-[#d095de] font-medium" onClick={createNote}>ADD NOTE</div></div>
                     </div>
-                    )
-                })}
-                </div>)}
-            </div>
+                    
+                    
+                    <div className="p-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-400">Your Notes List</div>
+
+                    {(auth === "null")?<div>Login or sign up</div>:
+                    ((notes == [])?<div>You have no notes. Create your notes</div>:
+                    <div className='grid grid-cols-3 gap-5'>
+                        {notes.map((note, index)=>{
+                        return (
+                        <div 
+                        className="bg-purple-50 hover:bg-purple-100 py-5 px-5 hover:shadow-md hover:shadow-purple-900/50 border border-purple-500 rounded-lg"
+                        key={note._id}>
+                            <div className="flex space-x-3 text-purple-900 justify-end">  
+                                    <button onclick={()=>{redirectToRead()}} className="material-symbols-outlined text-3xl">read_more</button>
+                                <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
+                                <button onClick = {()=>{editNote(note._id)}} className="material-symbols-outlined">edit_square</button>
+                            </div>
+                            <div className="text-xl font-bold text-blue-900">{index+1}. {note.title}</div>
+                            <div className="mt-2 text-lg font-serif line-clamp-2">{note.description}</div>
+                            <div className="flex justify-between mt-1">
+                                <div className="bg-purple-300 text-purple-600 text-sm py-2 px-2 font-medium rounded-full">#{note.tag}</div>
+                                <div className=" text-purple-600 text-sm font-medium py-2 rounded-full">{note.date.substring(0,10)}</div>
+                            </div>
+                        </div>
+                        )
+                    })}
+                    </div>)}
+                </div>
             </div>
             <div className={`flex justify-center ${hid?"hidden":""}`}>
                 <div className="w-2/3">
