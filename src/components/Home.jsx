@@ -122,6 +122,7 @@ const Home = ({auth}) => {
             <div className={`flex justify-center ${hid?"":"blur-lg"} ${displayNote?"":"blur-lg"}`}>
                 <div className="w-2/3"> 
                     <div className="py-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Note</div>     
+                    
                     <div className='p-3 rounded-md bg-purple-50 shadow-lg shadow-purple-300/50'>
                         <div className="p-3 flex space-x-4">
                             <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
@@ -134,14 +135,11 @@ const Home = ({auth}) => {
                             <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
                             <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-b-2 border-gray-400 w-full py-1 px-2 h-40" value={description} onChange={handleDesp}/>
                         </div>
-                        <div className='p-3 flex justify-end'><div className="w-1/5 py-3 bg-purple-500 rounded-md text-center text-white border-4 border-[#d095de] font-medium hover:cursor-pointer" onClick={createNote}>ADD NOTE</div>
+                        <div className='p-3 flex justify-end'><div className="w-1/6 py-3 bg-purple-500 rounded-md text-center text-white font-medium hover:cursor-pointer" onClick={createNote}>ADD NOTE</div>
                         </div>
                     </div>
-                    
-                    
 
-                    {(auth === "null")?<div>Login or sign up</div>:
-                    ((notes.length!==0)?
+                    {((notes.length!==0) &&
                     <div>
                         <div className="py-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
                         <div className='grid grid-cols-3 gap-5 mb-10'>
@@ -163,8 +161,7 @@ const Home = ({auth}) => {
                         </div>
                         )
                     })}
-                    </div></div>
-                    :<div>You have no notes. Create your notes</div>)}
+                    </div></div>)}
                 </div>
             </div>
             <div className={`fixed top-0 w-full h-full flex justify-center ${hid?"hidden":""}`}>
