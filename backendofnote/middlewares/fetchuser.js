@@ -9,7 +9,7 @@ const fetchuser = (req, res, next)=>{
     try{
        const data = jwt.verify(token, JWT_SECRET);
        req.abc = data.user; //add Jakhushi(here, abc) to req which adds user id
-       //console.log(req.abc);
+    //    console.log(data);
     next(); 
     }catch(error){
         res.status(401).send({error: "hijininij"});

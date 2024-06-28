@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 let nt;
 const Home = ({auth, setAuth}) => {
     const [title, setTitle] = useState("")
@@ -35,7 +36,7 @@ const Home = ({auth, setAuth}) => {
         fetchNote();
     }
     //Fetching Notes..........................................................................
-    async function fetchNote(data){
+    async function fetchNote(){
         const response = await fetch("http://localhost:5000/api/nts/fetchnotes", {
             method: "GET",
             headers: {
@@ -83,6 +84,20 @@ const Home = ({auth, setAuth}) => {
         //console.log(resp);
         fetchNote();
     }
+    //show a single note in one page
+    async function showOneNote(id) {
+        const response = await fetch(`http://localhost:5000/api/nts/showonenote/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": `${auth}`
+            }
+        })
+        let resp = await response.json();
+        navigate("/notes", {state: resp});
+    }
+
+
     function saveChanges(){
         // let data = {}
         // data.title = title;
@@ -138,7 +153,7 @@ const Home = ({auth, setAuth}) => {
                         className="bg-purple-50 hover:bg-purple-100 py-5 px-5 hover:shadow-md hover:shadow-purple-900/50 border border-purple-500 rounded-lg"
                         key={note._id}>
                             <div className="flex space-x-3 text-purple-900 justify-end">  
-                                    <button onclick={()=>{redirectToRead()}} className="material-symbols-outlined text-3xl">read_more</button>
+                                <button onClick={()=>{showOneNote(note._id)}} className="material-symbols-outlined text-3xl">read_more</button>
                                 <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
                                 <button onClick = {()=>{editNote(note._id)}} className="material-symbols-outlined">edit_square</button>
                             </div>

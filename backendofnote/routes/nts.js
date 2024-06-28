@@ -10,7 +10,7 @@ ntsRouter.use(express.json());
 //getting all notes using : Get "/api/nts/fetchnotes". login required
 ntsRouter.get("/fetchnotes",fetchuser, async (req, res)=>{
     try {
-        const notes = await NotesModel.find({user: req.abc.id})
+        const notes = await NotesModel.find({ user: req.abc.id })
         res.json(notes);
     } 
     catch(error){
@@ -90,5 +90,10 @@ async (req, res)=>{
         res.status(500).send("Internal server error");
     } 
 })
+
+ntsRouter.get("/showonenote/:id", fetchuser, async (req, res) => {
+    let note = await NotesModel.findById(req.params.id);
+    res.json({ note });
+});
 
 export default ntsRouter;

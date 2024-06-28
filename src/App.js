@@ -3,6 +3,7 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Note from './components/Note';
 import {Routes, Route} from "react-router-dom";
 import { useState } from 'react';
 
@@ -14,7 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home auth={auth} setAuth={setAuth}/>}></Route>
         <Route path="/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
-        <Route path="/signup"  element={<Signup auth={auth} setAuth={setAuth}/>}></Route>
+        <Route path="/signup" element={<Signup auth={auth} setAuth={setAuth} />}></Route>
+        <Route path="/notes"  element={<Note auth={auth} setAuth={setAuth}/>}></Route>
       </Routes>
     </div>
   );
