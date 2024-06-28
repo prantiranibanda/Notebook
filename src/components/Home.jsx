@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 let nt;
 const Home = ({auth, setAuth}) => {
@@ -47,7 +47,6 @@ const Home = ({auth, setAuth}) => {
         response.json().then(data=>{setNotes(data);})
         // let resp = await response.json();
         // setNotes(resp);
-        // console.log(resp);
     }
     useEffect(()=>{
         if (auth === "null") navigate("/login")
@@ -81,7 +80,6 @@ const Home = ({auth, setAuth}) => {
             body: JSON.stringify({title, description, tag}),
         })
         let resp = await response.json();
-        //console.log(resp);
         fetchNote();
     }
     //show a single note in one page
@@ -125,7 +123,7 @@ const Home = ({auth, setAuth}) => {
         <>
             <div className={`flex justify-center ${hid?"":"hidden"}`}>
                 <div className="w-2/3"> 
-                    <div className="p-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Your Notes</div>     
+                    <div className="p-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Note</div>     
                     <div className='p-3 rounded-md bg-purple-50 shadow-lg shadow-purple-300/50'>
                         <div className="p-3 flex space-x-4">
                             <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
@@ -142,26 +140,25 @@ const Home = ({auth, setAuth}) => {
                     </div>
                     
                     
-                    <div className="p-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-400">Your Notes List</div>
+                    <div className="p-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
 
                     {(auth === "null")?<div>Login or sign up</div>:
                     ((notes == [])?<div>You have no notes. Create your notes</div>:
-                    <div className='grid grid-cols-3 gap-5'>
+                    <div className='grid grid-cols-3 gap-5 mb-10'>
                         {notes.map((note, index)=>{
                         return (
-                        <div 
-                        className="bg-purple-50 hover:bg-purple-100 py-5 px-5 hover:shadow-md hover:shadow-purple-900/50 border border-purple-500 rounded-lg"
+                        <div     
+                        className="flex flex-col justify-between bg-purple-50 hover:cursor-pointer hover:bg-purple-100 py-5 px-5 hover:shadow-md hover:shadow-purple-900/50 border border-purple-500 rounded-lg"
                         key={note._id}>
-                            <div className="flex space-x-3 text-purple-900 justify-end">  
-                                <button onClick={()=>{showOneNote(note._id)}} className="material-symbols-outlined text-3xl">read_more</button>
+                                <div className="flex space-x-3 text-purple-900 justify-end"> 
                                 <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
                                 <button onClick = {()=>{editNote(note._id)}} className="material-symbols-outlined">edit_square</button>
                             </div>
-                            <div className="text-xl font-bold text-blue-900">{index+1}. {note.title}</div>
-                            <div className="mt-2 text-lg font-serif line-clamp-2">{note.description}</div>
-                            <div className="flex justify-between mt-1">
-                                <div className="bg-purple-300 text-purple-600 text-sm py-2 px-2 font-medium rounded-full">#{note.tag}</div>
-                                <div className=" text-purple-600 text-sm font-medium py-2 rounded-full">{note.date.substring(0,10)}</div>
+                            <div onClick={()=>{showOneNote(note._id)}} className="text-xl font-bold text-blue-900">{index+1}. {note.title}</div>
+                            <div onClick={()=>{showOneNote(note._id)}} className="text-lg font-serif line-clamp-2">{note.description}</div>
+                            <div onClick={()=>{showOneNote(note._id)}} className="flex justify-between items-end">
+                                <div className=" bg-purple-300 text-purple-600 text-sm py-1 px-2 rounded-full font-medium ">#{note.tag}</div>
+                                <div className=" text-purple-600 text-xs">{note.date.substring(0,10)}</div>
                             </div>
                         </div>
                         )
