@@ -8,6 +8,9 @@ const Home = ({auth, setAuth}) => {
     const [tag, setTag] = useState("")
     const [notes, setNotes] = useState([])
     const [hid, setHid] = useState(true)
+    const [displayNote, setDisplayNote] = useState(true)
+    const [heading, setHeading] = useState()
+    const [content, setContent] = useState()
 
     const handleTitle = (event) => {
         setTitle(event.target.value);
@@ -92,7 +95,10 @@ const Home = ({auth, setAuth}) => {
             }
         })
         let resp = await response.json();
-        navigate("/notes", {state: resp});
+        // navigate("/notes", { state: resp });
+        setHeading(resp.note.title);
+        setContent(resp.note.description);
+        setDisplayNote(false);
     }
 
 
@@ -120,10 +126,10 @@ const Home = ({auth, setAuth}) => {
     }
 
     return (
-        <>
-            <div className={`flex justify-center ${hid?"":"hidden"}`}>
+        <div className='relative'>
+            <div className={`flex justify-center ${hid?"":"blur-lg"} ${displayNote?"":"blur-lg"}`}>
                 <div className="w-2/3"> 
-                    <div className="p-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Note</div>     
+                    <div className="py-3 text-4xl text-blue-900 font-bold my-6 border-b-2 border-orange-400">Add Note</div>     
                     <div className='p-3 rounded-md bg-purple-50 shadow-lg shadow-purple-300/50'>
                         <div className="p-3 flex space-x-4">
                             <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
@@ -136,11 +142,12 @@ const Home = ({auth, setAuth}) => {
                             <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
                             <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-b-2 border-gray-400 w-full py-1 px-2 h-40" value={description} onChange={handleDesp}/>
                         </div>
-                    <div className='p-3 flex justify-end'><div className="w-1/5 py-3 bg-purple-500 rounded-md text-center text-white border-4 border-[#d095de] font-medium" onClick={createNote}>ADD NOTE</div></div>
+                        <div className='p-3 flex justify-end'><div className="w-1/5 py-3 bg-purple-500 rounded-md text-center text-white border-4 border-[#d095de] font-medium hover:cursor-pointer" onClick={createNote}>ADD NOTE</div>
+                        </div>
                     </div>
                     
                     
-                    <div className="p-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
+                    <div className="py-3 text-4xl text-blue-900 font-bold mt-10 mb-5 border-b-2 border-orange-500">Your Notes</div>
 
                     {(auth === "null")?<div>Login or sign up</div>:
                     ((notes == [])?<div>You have no notes. Create your notes</div>:
@@ -150,12 +157,12 @@ const Home = ({auth, setAuth}) => {
                         <div     
                         className="flex flex-col justify-between bg-purple-50 hover:cursor-pointer hover:bg-purple-100 py-5 px-5 hover:shadow-md hover:shadow-purple-900/50 border border-purple-500 rounded-lg"
                         key={note._id}>
-                                <div className="flex space-x-3 text-purple-900 justify-end"> 
+                            <div className="flex space-x-3 text-purple-900 justify-end"> 
                                 <button onClick = {()=>{handleDelete(note._id)}} className="material-symbols-outlined">delete</button>
                                 <button onClick = {()=>{editNote(note._id)}} className="material-symbols-outlined">edit_square</button>
                             </div>
-                            <div onClick={()=>{showOneNote(note._id)}} className="text-xl font-bold text-blue-900">{index+1}. {note.title}</div>
-                            <div onClick={()=>{showOneNote(note._id)}} className="text-lg font-serif line-clamp-2">{note.description}</div>
+                            <div onClick={()=>{showOneNote(note._id)}} className="text-xl font-bold line-clamp-1 text-blue-900">{index+1}. {note.title}</div>
+                            <div onClick={()=>{showOneNote(note._id)}} className="text-lg font-serif line-clamp-2 h-14">{note.description}</div>
                             <div onClick={()=>{showOneNote(note._id)}} className="flex justify-between items-end">
                                 <div className=" bg-purple-300 text-purple-600 text-sm py-1 px-2 rounded-full font-medium ">#{note.tag}</div>
                                 <div className=" text-purple-600 text-xs">{note.date.substring(0,10)}</div>
@@ -166,25 +173,34 @@ const Home = ({auth, setAuth}) => {
                     </div>)}
                 </div>
             </div>
-            <div className={`flex justify-center ${hid?"hidden":""}`}>
-                <div className="w-2/3">
-                    <div className="text-4xl font-bold mt-6 mb-4">Edit Notes:</div>  
-                    <div className="p-3 px-10 bg-purple-200 my-1">
+            <div className={`fixed top-0 w-full h-full flex justify-center ${hid?"hidden":""}`}>
+                <div className='h-full w-full bg-[#87668d8b] -z-10 absolute'></div>
+                <div className="w-1/2 h-fit mt-10 z-5 opacity-100 px-4 py-10">
+                    <div className="text-3xl text-center font-bold">Edit Notes</div>  
+                    <div className="py-3 px-10 rounded-t-lg bg-purple-100 my-1">
                         <div className="text-xl font-bold pb-2 text-purple-600">Title:</div>
-                        <input type="text" name="title" placeholder="Give a title" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={title} onChange={handleTitle}/>
+                        <input type="text" name="title" placeholder="Give a title" className="italic rounded-md border border-blue-500 w-full py-1 px-2" value={title} onChange={handleTitle}/>
                     </div> 
-                    <div className="p-3 px-10 bg-purple-200 my-1">
+                    <div className="py-3 px-10 bg-purple-100 my-1">
                         <div className="text-xl font-bold pb-2 text-purple-600">Description:</div>
-                        <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2 h-64" value={description} onChange={handleDesp}/>
+                        <textarea type="text" name="description" placeholder="Write your note here..." className="italic rounded-md border border-blue-500 w-full py-1 px-2 h-52" value={description} onChange={handleDesp}/>
                     </div>
-                    <div className="p-3 px-10 bg-purple-200 my-1">
+                    <div className="pt-3 pb-6 px-10 rounded-b-lg bg-purple-100 my-1">
                         <div className="text-xl font-bold pb-2 text-purple-600">Tag:</div>
-                        <input type="text" name="tag" placeholder="Give a Tag" className="italic rounded-md border-2 border-blue-500 w-full py-1 px-2" value={tag} onChange={handleTag}/>
+                        <input type="text" name="tag" placeholder="Give a Tag" className="italic rounded-md border border-blue-500 w-full py-1 px-2" value={tag} onChange={handleTag}/>
                     </div>
-                    <button className="px-3 py-2 bg-sky-400 rounded-md mt-4 text-white border-4 border-sky-300 font-medium" onClick={saveChanges}>SAVE CHANGES</button>
+                    <div className='p-3 flex justify-center'><div className="hover:cursor-pointer px-3 py-3 bg-purple-500 rounded-md text-center text-white font-medium" onClick={saveChanges}>SAVE CHANGES</div>
+                    </div>
                 </div>
             </div>
-        </>
+            <div className={`fixed top-0 w-full h-full flex justify-center ${displayNote?"hidden":""}`}>
+                <div className='h-full w-full bg-[#87668d8b] -z-10 absolute' onClick={()=>{setDisplayNote(true)}}></div>
+                <div className="w-2/5 h-fit min-h-96 mt-14 z-5 opacity-100 p-6 bg-purple-100 rounded-lg">
+                    <div className="text-center text-blue-900 text-3xl pb-3 font-bold border-b-2 border-white">{heading}</div>
+                    <div className="pt-3">{content}</div>
+                </div>
+            </div>
+        </div>
     )
 }
 
