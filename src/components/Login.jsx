@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// import { Navigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = ({auth, setAuth}) => {
     const [email, setEmail] = useState("");
@@ -31,10 +31,9 @@ const Login = ({auth, setAuth}) => {
             setPassword("");
         }
         else {
-            console.warn("Not logged in");
             for (let i = 0; i < resp.errors.length; i++) {
                 const err = resp.errors[i];
-                console.log(err.msg);
+                toast.error(err.msg);
             }
         }
     }
@@ -45,8 +44,9 @@ const Login = ({auth, setAuth}) => {
     //     loginUser(data);
     // }
     return (
-    <>
-    <div className="flex justify-center mt-24">
+        <>
+        <Toaster />
+        <div className="flex justify-center mt-24">
         <div className="w-1/4 bg-purple-100 pt-4 pb-10 px-6 rounded-md border-2 border-gray-300">
             <div className="text-center font-bold text-xl text-blue-900 pb-7">Login to Your Account</div>
             <div className="mb-4">

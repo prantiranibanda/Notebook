@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Signup = ({auth, setAuth}) => {
   const [name, setName] = useState("");
@@ -36,10 +37,9 @@ const Signup = ({auth, setAuth}) => {
       setPassword("");
     }
     else {
-      console.warn("Not Signed up");
       for (let i = 0; i < resp.errors.length; i++) {
         const err = resp.errors[i];
-        console.log(err.msg);
+        toast.error(err.msg);
       }
     }
   }
@@ -51,6 +51,7 @@ const Signup = ({auth, setAuth}) => {
   //   createUser(data);
   // }
   return (<>
+    <Toaster/>
     <div className="flex justify-center mt-24">
       <div className="w-1/4 bg-purple-100 pt-4 pb-10 px-6 rounded-md border-2 border-gray-300">
       <div className="text-center font-bold text-xl text-blue-900 pb-7">Create New Account</div>

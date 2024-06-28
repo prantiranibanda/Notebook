@@ -15,7 +15,7 @@ authRouter.post(
   [
     body('name', 'Name is too short').isLength({ min: 2 }),
     body('email', 'Enter valid email').isEmail(),
-    body('password', 'Enter valid password').isLength({ min: 5 }),
+    body('password', 'Password is too short. Atleast five characters required').isLength({ min: 5 }),
   ],
   async (req, res) => {
     //if any error return bad request and errors
