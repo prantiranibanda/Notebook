@@ -57,7 +57,7 @@ const Login = ({auth, setAuth}) => {
                         <div className="font-bold pb-2 text-purple-600">PASSWORD:</div>
                         <div className="flex">
                             <input type={openeye?"text":"password"} name="tag" placeholder="Enter password" className="focus:outline-none border-b-2 border-blue-500 w-full py-1 px-2" value={password} onChange={handlePassword} />
-                            <button className="material-symbols-outlined bg-white border-b-2 border-blue-500 pr-2" onClick={()=>{setOpeneye(!openeye)}}>{openeye?"visibility":"visibility_off"}</button>
+                            <button className="material-symbols-outlined text-gray-600 bg-white border-b-2 border-blue-500 pr-2" onClick={()=>{setOpeneye(!openeye)}}>{openeye?"visibility":"visibility_off"}</button>
                         </div>
             </div>
             <div className="text-center bg-purple-600 mt-14 py-2 rounded-md text-white font-semibold hover:cursor-pointer" onClick={loginUser}>Login</div>
