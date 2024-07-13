@@ -21,25 +21,29 @@ const Signup = ({ auth, setAuth }) => {
 	}
 
 	async function createUser() {
-		const response = await fetch("http://localhost:5000/api/auth/createuser", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ name, email, password }),
-		});
-		let resp = await response.json();
-		if (resp.success) {
-			setAuth(resp.authToken);
-			navigate("/");
-			setName("");
-			setEmail("");
-			setPassword("");
-		} else {
-			for (let i = 0; i < resp.errors.length; i++) {
-				const err = resp.errors[i];
-				toast.error(err.msg);
+		try {
+			const response = await fetch("http://localhost:5000/api/auth/createuser", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name, email, password }),
+			});
+			let resp = await response.json();
+			if (resp.success) {
+				setAuth(resp.authToken);
+				navigate("/");
+				setName("");
+				setEmail("");
+				setPassword("");
+			} else {
+				for (let i = 0; i < resp.errors.length; i++) {
+					const err = resp.errors[i];
+					toast.error(err.msg);
+				}
 			}
+		} catch (error) {
+			toast.error("Backend not running!");
 		}
 	}
 	// function storeUserData(){

@@ -16,24 +16,28 @@ const Login = ({ auth, setAuth }) => {
 		setPassword(event.target.value);
 	}
 	async function loginUser() {
-		const response = await fetch("http://localhost:5000/api/auth/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ email, password }),
-		});
-		let resp = await response.json();
-		if (resp.success) {
-			setAuth(resp.authToken);
-			navigate("/");
-			setEmail("");
-			setPassword("");
-		} else {
-			for (let i = 0; i < resp.errors.length; i++) {
-				const err = resp.errors[i];
-				toast.error(err.msg);
-			}
+		try {
+			const response = await fetch("http://localhost:5000/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email, password }),
+			});
+			let resp = await response.json();
+			if (resp.success) {
+				setAuth(resp.authToken);
+				navigate("/");
+				setEmail("");
+				setPassword("");
+			} else {
+				for (let i = 0; i < resp.errors.length; i++) {
+					const err = resp.errors[i];
+					toast.error(err.msg);
+				}
+			}		
+		} catch (error) {
+			toast.error("Backend not running!");
 		}
 	}
 	// function storeUserData(){
