@@ -35,7 +35,7 @@ const Login = ({ auth, setAuth }) => {
 					const err = resp.errors[i];
 					toast.error(err.msg);
 				}
-			}		
+			}
 		} catch (error) {
 			toast.error("Backend not running!");
 		}

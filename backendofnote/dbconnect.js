@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const mongoUrl =
-	"mongodb+srv://prantibanda:CMIEpwC20YL1oDlg@cluster0.yj9d3vo.mongodb.net/noteDB";
+	"mongodb+srv://prantibanda:cluster0pw@cluster0.yj9d3vo.mongodb.net/noteDB";
 
 const mongoConnect = async () => {
 	await mongoose.connect(mongoUrl).then(() => {

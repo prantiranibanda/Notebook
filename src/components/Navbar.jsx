@@ -35,6 +35,13 @@ const Navbar = ({ auth, setAuth }) => {
 						Logout
 					</button>
 				)}
+				<a
+					href="https://github.com/prantiranibanda/Notebook"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<i className="fi fi-brands-github cursor-pointer text-2xl text-gray-400 hover:text-white"></i>
+				</a>
 			</div>
 		</div>
 	);

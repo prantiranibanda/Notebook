@@ -22,13 +22,16 @@ const Signup = ({ auth, setAuth }) => {
 
 	async function createUser() {
 		try {
-			const response = await fetch("http://localhost:5000/api/auth/createuser", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+			const response = await fetch(
+				"http://localhost:5000/api/auth/createuser",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ name, email, password }),
 				},
-				body: JSON.stringify({ name, email, password }),
-			});
+			);
 			let resp = await response.json();
 			if (resp.success) {
 				setAuth(resp.authToken);
