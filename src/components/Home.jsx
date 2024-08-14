@@ -24,14 +24,17 @@ const Home = ({ auth }) => {
 	const navigate = useNavigate();
 	//Creating notes..........................................................................
 	async function createNote() {
-		const response = await fetch("http://localhost:5000/api/nts/addnotes", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"auth-token": `${auth}`,
+		const response = await fetch(
+			"http://35.154.110.148:5000/api/nts/addnotes",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": `${auth}`,
+				},
+				body: JSON.stringify({ title, description, tag }),
 			},
-			body: JSON.stringify({ title, description, tag }),
-		});
+		);
 		let resp = await response.json();
 		setTitle("");
 		setDescription("");
@@ -40,13 +43,16 @@ const Home = ({ auth }) => {
 	}
 	//Fetching Notes..........................................................................
 	async function fetchNote() {
-		const response = await fetch("http://localhost:5000/api/nts/fetchnotes", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"auth-token": `${auth}`,
+		const response = await fetch(
+			"http://35.154.110.148:5000/api/nts/fetchnotes",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": `${auth}`,
+				},
 			},
-		});
+		);
 		response.json().then(data => {
 			setNotes(data);
 		});
@@ -64,7 +70,7 @@ const Home = ({ auth }) => {
 	//Delete Notes............................................................................
 	async function handleDelete(id) {
 		const response = await fetch(
-			`http://localhost:5000/api/nts/deletenote/${id}`,
+			`http://35.154.110.148:5000/api/nts/deletenote/${id}`,
 			{
 				method: "DELETE",
 				headers: {
@@ -80,7 +86,7 @@ const Home = ({ auth }) => {
 	//Updating Notes..........................................................................
 	async function handleUpdate(id) {
 		const response = await fetch(
-			`http://localhost:5000/api/nts/updatenote/${id}`,
+			`http://35.154.110.148:5000/api/nts/updatenote/${id}`,
 			{
 				method: "PUT",
 				headers: {
@@ -96,7 +102,7 @@ const Home = ({ auth }) => {
 	//show a single note in one page
 	async function showOneNote(id) {
 		const response = await fetch(
-			`http://localhost:5000/api/nts/showonenote/${id}`,
+			`http://35.154.110.148:5000/api/nts/showonenote/${id}`,
 			{
 				method: "GET",
 				headers: {

@@ -23,7 +23,7 @@ const Signup = ({ auth, setAuth }) => {
 	async function createUser() {
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/auth/createuser",
+				"http://35.154.110.148:5000/api/auth/createuser",
 				{
 					method: "POST",
 					headers: {

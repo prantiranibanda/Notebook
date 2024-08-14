@@ -17,13 +17,16 @@ const Login = ({ auth, setAuth }) => {
 	}
 	async function loginUser() {
 		try {
-			const response = await fetch("http://localhost:5000/api/auth/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+			const response = await fetch(
+				"http://35.154.110.148:5000/api/auth/login",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ email, password }),
 				},
-				body: JSON.stringify({ email, password }),
-			});
+			);
 			let resp = await response.json();
 			if (resp.success) {
 				setAuth(resp.authToken);
